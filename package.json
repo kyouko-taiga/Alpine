@@ -1,0 +1,58 @@
+{
+  "name": "Alpine",
+  "version": "1.0.0",
+  "description": "Algebraic Petri Net Editor.",
+  "author": "Dimitri Racordon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyouko-taiga/alpine.git"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "babel-register": "^6.26.0",
+    "browserify": "^14.4.0",
+    "eslint": "^4.8.0",
+    "eslint-plugin-react": "^7.4.0",
+    "watchify": "^3.9.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "codemirror": "^5.34.0",
+    "deep-diff": "^0.3.8",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react-codemirror2": "^4.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-function-bind",
+      "transform-object-rest-spread"
+    ]
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "scripts": {
+    "clean": "rm -f ./build/*.*",
+    "build-debug": "browserify src/main.js -o ./build/app.js -v -d",
+    "build": "browserify src/main.js | uglifyjs -cm > ./build/app.js",
+    "watch": "watchify src/main.js -o ./build/app.js -v -d"
+  }
+}

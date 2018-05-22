@@ -1,0 +1,131 @@
+/*
+ * Color Variables:
+ *   lighter-gray: rgb(232,232,232)
+ *   light-gray  : rgb(208,208,208)
+ *   gray        : rgb(180,180,180)
+ */
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* --- Tabs --- */
+
+.alpine-tabs > .alpine-header {
+  height: 2rem;
+  background-color: rgb(232,232,232);
+}
+
+.alpine-tabs > .alpine-header > button {
+  display: inline-block;
+  margin: 0;
+  padding: 0 1rem;
+  background-color: transparent;
+	height: 100%;
+  border: none;
+  font-size: 1rem;
+}
+
+.alpine-tabs > .alpine-header > button.active {
+  color: rgb(123,169,235);
+}
+
+/* --- Editor --- */
+
+.alpine-editor > .alpine-header {
+  flex-shrink: 0;
+  height: 56px;
+  background-color: rgb(232,232,232);
+  border-bottom: 1px solid rgb(208,208,208);
+  box-sizing: border-box;
+}
+
+.alpine-editor > .alpine-body {
+  display: flex;
+  height: calc(100% - 56px);
+}
+
+.alpine-editor > .alpine-body > .alpine-sidebar {
+  flex-shrink: 0;
+  width: 200px;
+  background-color: rgb(232,232,232);
+}
+
+.alpine-editor > .alpine-body > .alpine-sidebar:first-child {
+  border-right: 1px solid rgb(208,208,208);
+}
+
+.alpine-editor > .alpine-body > .alpine-sidebar:last-child {
+  border-left: 1px solid rgb(208,208,208);
+}
+
+.alpine-editor > .alpine-body > .alpine-sidebar > .alpine-title {
+  height: 2rem;
+}
+
+.alpine-editor > .alpine-body > .alpine-sidebar > .alpine-tabs > .alpine-header {
+  text-align: center;
+  border-bottom: 1px solid rgb(208,208,208);
+}
+
+.alpine-editor > .alpine-body > .alpine-content {
+  flex-grow: 1;
+}
+
+.alpine-editor > .alpine-body > .alpine-content > .alpine-tabs > .alpine-header > button {
+  min-width: 100px;
+  border-right: 1px solid rgb(208,208,208);
+}
+
+.alpine-editor > .alpine-body > .alpine-content > .alpine-tabs > .alpine-header > button.active {
+  background-color: white;
+}
+
+/* --- Palette --- */
+
+.alpine-palette > button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: .5rem 1rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(208,208,208);
+  font-size: 1rem;
+}
+
+.alpine-palette > button:hover {
+  background-color: rgb(208,208,208);
+}
+
+.alpine-palette > button.active {
+  background-color: rgb(190,190,190);
+}
+
+.alpine-palette > button > img {
+  width: 36px;
+  margin-right: .5rem;
+}
+
+/* --- Graph editor --- */
+
+.alpine-graph {
+  width: 100%;
+  height: calc(100% - 2rem);
+  background-color: white;
+}
+
+.alpine-graph text {
+  cursor: default;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.alpine-graph text::selection {
+    background: none;
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48px" height="48px">
+  <marker id="end-arrow" viewBox="0 -10 20 20" refX="12" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0,-10L20,0L0,10" fill="#000"></path>
+  </marker>
+  <path d="M10,38L38,10" stroke="rgb(0,0,0)" stroke-width="3" marker-end="url(#end-arrow)">
+  </path>
+</svg>
