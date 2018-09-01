@@ -1,9 +1,9 @@
-import PropTypes    from 'prop-types'
-import React        from 'react'
-import { connect }  from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import * as actions from '../../actions'
-import draggable    from './draggable'
+import draggable from './draggable'
 
 export default (options) => {
 

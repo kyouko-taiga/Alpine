@@ -1,6 +1,6 @@
-import PropTypes    from 'prop-types'
-import React        from 'React'
-import { connect }  from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'React'
+import { connect } from 'react-redux'
 
 import * as actions from '../../actions'
 import { uiStates } from './constants'

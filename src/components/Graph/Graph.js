@@ -1,22 +1,22 @@
-import PropTypes          from 'prop-types'
-import React              from 'react'
-import { connect }        from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
 
-import * as actions       from '../../actions'
-import { editionTools }   from '../../constants'
-import { guid }           from '../../utils'
-import Arc                from './Arc'
-import makeNodeComponent  from './makeNodeComponent'
+import * as actions from '../../actions'
+import { editionTools } from '../../constants'
+import { guid } from '../../utils'
+import Arc from './Arc'
+import makeNodeComponent from './makeNodeComponent'
 import {
   placeNodeDescription,
   transitionNodeDescription,
   uiStates,
 } from './constants'
 
-const Place      = makeNodeComponent(placeNodeDescription)
+const Place = makeNodeComponent(placeNodeDescription)
 const Transition = makeNodeComponent(transitionNodeDescription)
 
-let placeCounter      = 0
+let placeCounter = 0
 let transitionCounter = 0
 
 class Graph extends React.Component {

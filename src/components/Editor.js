@@ -1,9 +1,9 @@
-import React          from 'react'
+import React from 'react'
 
-import CodeEditor     from './CodeEditor'
-import Graph          from './Graph'
-import Palette        from './Palette'
-import { Tabs, Tab }  from './Tabs'
+import CodeEditor from './CodeEditor'
+import Graph from './Graph'
+import Palette from './Palette'
+import { Tabs, Tab } from './Tabs'
 
 export default class Editor extends React.Component {
 

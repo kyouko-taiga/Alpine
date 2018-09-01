@@ -1,8 +1,8 @@
-import { combineReducers }      from 'redux'
+import { combineReducers } from 'redux'
 
 import { types as actionTypes } from './actions'
-import { uiStates }             from './components/Graph/constants'
-import { editionTools }         from './constants'
+import { uiStates } from './components/Graph/constants'
+import { editionTools } from './constants'
 
 const nodes = {
   'p0': { id: 'p0', type: 'place', name: 'p0', coords: { x: 100, y: 100 } },

@@ -1,16 +1,13 @@
-import React                    from 'react'
-import { render }               from 'react-dom'
-import { Provider }             from 'react-redux'
-import {
-  createStore,
-  applyMiddleware,
-}                               from 'redux'
-import { createLogger }         from 'redux-logger'
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import { createLogger } from 'redux-logger'
 
 import { types as actionTypes } from './actions'
-import { state }                from './reducers'
-import Editor                   from './components/Editor'
-import { uiStates }             from './components/Graph/constants'
+import { state } from './reducers'
+import Editor from './components/Editor'
+import { uiStates } from './components/Graph/constants'
 
 // Define an assert function.
 if (typeof window.assert === 'undefined') {
