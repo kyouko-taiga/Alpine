@@ -27,6 +27,11 @@ export const types = {
   // Fired when an arc is deselected.
   GRAPH_ARC_DESELECT        : '@@alpine/graph/arc-deselect',
 
+  // Fired when the graph's context menu is about to show.
+  GRAPH_CONTEXTMENU_SHOW    : '@@alpine/graph/contextmenu-show',
+  // Fired when the graph's context menu is about to hide.
+  GRAPH_CONTEXTMENU_HIDE    : '@@alpine/graph/contextmenu-hide',
+
   GRAPH_NEW_PLACE           : '@@alpine/graph/new-place',
   GRAPH_NEW_TRANSITION      : '@@alpine/graph/new-transition',
 }
@@ -106,5 +111,17 @@ export const graph = {
     type   : types.GRAPH_ARC_DESELECT,
     payload: null,
   }),
+
+  // MARK: Context menu actions.
+
+  showContextMenu: (coords) => ({
+    type   : types.GRAPH_CONTEXTMENU_SHOW,
+    payload: { coords },
+  }),
+
+  hideContextMenu: () => ({
+    type   : types.GRAPH_CONTEXTMENU_HIDE,
+    payload: null,
+  })
 
 }

@@ -6,6 +6,7 @@ import * as actions from '../../actions'
 import { editionTools } from '../../constants'
 import { guid } from '../../utils'
 import Arc from './Arc'
+import ContextMenu from './ContextMenu'
 import makeNodeComponent from './makeNodeComponent'
 import {
   placeNodeDescription,
@@ -23,13 +24,22 @@ class Graph extends React.Component {
 
   static propTypes = {
     // onMouseMove: PropTypes.func.isRequired,
-    setUIState : PropTypes.func.isRequired,
-    createArc  : PropTypes.func.isRequired,
-    updateArc  : PropTypes.func.isRequired,
+    setUIState      : PropTypes.func.isRequired,
+    createArc       : PropTypes.func.isRequired,
+    updateArc       : PropTypes.func.isRequired,
+    removeArc       : PropTypes.func.isRequired,
+    showContextMenu : PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.pt = this.svg.createSVGPoint()
+    this.contextMenuListener = window.addEventListener('contextmenu', ::this.handleContextMenu)
+  }
+
+  componentWillUnmount() {
+    if (this.contextMenuListener) {
+      window.removeEventListener('contextmenu', this.contextMenuListener)
+    }
   }
 
   render() {
@@ -38,36 +48,39 @@ class Graph extends React.Component {
     const draggable = (uiState.name == uiStates.EDIT) && (editionTool == editionTools.CURSOR)
 
     return (
-      <svg
-        className    = "alpine-graph"
-        ref         = { (el) => this.svg = el }
-        onMouseDown = { ::this.handleMouseDown }
-        onMouseMove = { ::this.handleMouseMove }
-        onMouseUp   = { ::this.handleMouseUp }
-      >
-        <marker
-          id           = "end-arrow"
-          viewBox      = "0 -10 20 20"
-          refX         = "18"
-          markerWidth  = "6"
-          markerHeight = "6"
-          orient       = "auto"
+      <div>
+        <ContextMenu />
+        <svg
+          className   = "alpine-graph"
+          ref         = { (el) => this.svg = el }
+          onMouseDown = { ::this.handleMouseDown }
+          onMouseMove = { ::this.handleMouseMove }
+          onMouseUp   = { ::this.handleMouseUp }
         >
-          <path d="M0,-10L20,0L0,10" fill="#000" />
-        </marker>
-        {
-          Object.values(arcs).map((arc) => (
-            <Arc key={ arc.id } { ...arc } />
-          ))
-        }
-        {
-          Object.values(nodes).map((node) => (
-            node.type == 'place'
-              ? <Place      key={ node.id } draggable={ draggable } { ...node } />
-              : <Transition key={ node.id } draggable={ draggable } { ...node } />
-          ))
-        }
-      </svg>
+          <marker
+            id           = "end-arrow"
+            viewBox      = "0 -10 20 20"
+            refX         = "18"
+            markerWidth  = "6"
+            markerHeight = "6"
+            orient       = "auto"
+          >
+            <path d="M0,-10L20,0L0,10" fill="#000" />
+          </marker>
+          {
+            Object.values(arcs).map((arc) => (
+              <Arc key={ arc.id } { ...arc } />
+            ))
+          }
+          {
+            Object.values(nodes).map((node) => (
+              node.type == 'place'
+                ? <Place      key={ node.id } draggable={ draggable } { ...node } />
+                : <Transition key={ node.id } draggable={ draggable } { ...node } />
+            ))
+          }
+        </svg>
+      </div>
     )
   }
 
@@ -181,23 +194,29 @@ class Graph extends React.Component {
     }
   }
 
+  handleContextMenu(e) {
+    e.preventDefault()
+    this.props.showContextMenu({ x: e.clientX, y: e.clientY })
+  }
+
 }
 
 const mapStateToProps = (state) => ({
   nodes        : state.nodes,
   arcs         : state.arcs,
+  editionTool  : state.editor.editionTool,
   uiState      : state.graph.uiState,
   dragListeners: state.graph.dragListeners,
-  editionTool  : state.editor.editionTool,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   // onMouseMove: (coords)         => dispatch(actions.graph.moveMouse(coords)),
-  setUIState : (name, args)     => dispatch(actions.graph.setUIState(name, args)),
-  createNode : (id, data)       => dispatch(actions.graph.createNode(id, data)),
-  createArc  : (...args)        => dispatch(actions.graph.createArc(...args)),
-  updateArc  : (arcID, updates) => dispatch(actions.graph.updateArc(arcID, updates)),
-  removeArc  : (arcID)          => dispatch(actions.graph.removeArc(arcID)),
+  setUIState      : (name, args)     => dispatch(actions.graph.setUIState(name, args)),
+  createNode      : (id, data)       => dispatch(actions.graph.createNode(id, data)),
+  createArc       : (...args)        => dispatch(actions.graph.createArc(...args)),
+  updateArc       : (arcID, updates) => dispatch(actions.graph.updateArc(arcID, updates)),
+  removeArc       : (arcID)          => dispatch(actions.graph.removeArc(arcID)),
+  showContextMenu : (coords)         => dispatch(actions.graph.showContextMenu(coords))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Graph)

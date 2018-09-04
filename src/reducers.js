@@ -113,5 +113,17 @@ export const state = combineReducers({
         return state
       }
     },
+
+    // Keep track of the state of the graph's context menu.
+    contextMenu: (state = { open: false, coords: { x: 0, y: 0 } }, action) => {
+      switch (action.type) {
+      case actionTypes.GRAPH_CONTEXTMENU_SHOW:
+        return { open: true, coords: action.payload.coords }
+      case actionTypes.GRAPH_CONTEXTMENU_HIDE:
+        return { ...state, open: false }
+      default:
+        return state
+      }
+    },
   }),
 })
