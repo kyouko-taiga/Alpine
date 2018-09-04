@@ -7,38 +7,30 @@ import { editionTools } from '../../constants'
 import { guid } from '../../utils'
 import Arc from './Arc'
 import ContextMenu from './ContextMenu'
-import makeNodeComponent from './makeNodeComponent'
+import GlowFilter from './GlowFilter'
+import node from './node'
 import {
   placeNodeDescription,
   transitionNodeDescription,
   uiStates,
 } from './constants'
 
-const Place = makeNodeComponent(placeNodeDescription)
-const Transition = makeNodeComponent(transitionNodeDescription)
+const Place = node(placeNodeDescription)
+const Transition = node(transitionNodeDescription)
 
 let placeCounter = 0
 let transitionCounter = 0
 
 class Graph extends React.Component {
 
-  static propTypes = {
-    // onMouseMove: PropTypes.func.isRequired,
-    setUIState      : PropTypes.func.isRequired,
-    createArc       : PropTypes.func.isRequired,
-    updateArc       : PropTypes.func.isRequired,
-    removeArc       : PropTypes.func.isRequired,
-    showContextMenu : PropTypes.func.isRequired,
-  }
-
   componentDidMount() {
     this.pt = this.svg.createSVGPoint()
-    this.contextMenuListener = window.addEventListener('contextmenu', ::this.handleContextMenu)
+    this.keyListener = window.addEventListener('keypress', ::this.handleKeyPress)
   }
 
   componentWillUnmount() {
-    if (this.contextMenuListener) {
-      window.removeEventListener('contextmenu', this.contextMenuListener)
+    if (this.keyListener) {
+      window.removeEventListener('keypress', this.keyListener)
     }
   }
 
@@ -67,6 +59,9 @@ class Graph extends React.Component {
           >
             <path d="M0,-10L20,0L0,10" fill="#000" />
           </marker>
+          <defs>
+            <GlowFilter />
+          </defs>
           {
             Object.values(arcs).map((arc) => (
               <Arc key={ arc.id } { ...arc } />
@@ -194,9 +189,14 @@ class Graph extends React.Component {
     }
   }
 
-  handleContextMenu(e) {
-    e.preventDefault()
-    this.props.showContextMenu({ x: e.clientX, y: e.clientY })
+  handleKeyPress(e) {
+    if (e.key === 'Backspace') {
+      if (this.props.selectedNode !== null) {
+        this.props.removeNode(this.props.selectedNode)
+      } else if (this.props.selectedArc !== null) {
+        this.props.removeArc(this.props.selectedArc)
+      }
+    }
   }
 
 }
@@ -204,19 +204,21 @@ class Graph extends React.Component {
 const mapStateToProps = (state) => ({
   nodes        : state.nodes,
   arcs         : state.arcs,
+  selectedNode : state.graph.selectedNode,
+  selectedArc  : state.graph.selectedArc,
   editionTool  : state.editor.editionTool,
   uiState      : state.graph.uiState,
   dragListeners: state.graph.dragListeners,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  // onMouseMove: (coords)         => dispatch(actions.graph.moveMouse(coords)),
-  setUIState      : (name, args)     => dispatch(actions.graph.setUIState(name, args)),
-  createNode      : (id, data)       => dispatch(actions.graph.createNode(id, data)),
-  createArc       : (...args)        => dispatch(actions.graph.createArc(...args)),
-  updateArc       : (arcID, updates) => dispatch(actions.graph.updateArc(arcID, updates)),
-  removeArc       : (arcID)          => dispatch(actions.graph.removeArc(arcID)),
-  showContextMenu : (coords)         => dispatch(actions.graph.showContextMenu(coords))
+  // onMouseMove: (coords)     => dispatch(actions.graph.moveMouse(coords)),
+  setUIState: (name, args)  => dispatch(actions.graph.setUIState(name, args)),
+  createNode: (id, data)    => dispatch(actions.graph.createNode(id, data)),
+  removeNode: (id)          => dispatch(actions.graph.removeNode(id)),
+  createArc : (...args)     => dispatch(actions.graph.createArc(...args)),
+  updateArc : (id, updates) => dispatch(actions.graph.updateArc(id, updates)),
+  removeArc : (id)          => dispatch(actions.graph.removeArc(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Graph)

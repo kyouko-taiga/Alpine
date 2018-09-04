@@ -45,7 +45,7 @@ class ContextMenu extends React.PureComponent {
   }
 
   handleClick(e) {
-    if (!this.el.contains(event.target)) {
+    if (this.props.open && !this.el.contains(event.target)) {
       this.props.hide()
     }
   }

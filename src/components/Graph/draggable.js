@@ -29,17 +29,17 @@ export default (Component) => {
   class Draggable extends React.Component {
 
     static propTypes = {
-      draggable  : PropTypes.bool,
-      onDragStart: PropTypes.func,
-      onDrag     : PropTypes.func,
-      onDragEnd  : PropTypes.func,
+      draggable   : PropTypes.bool,
+      onDragStart : PropTypes.func,
+      onDrag      : PropTypes.func,
+      onDragEnd   : PropTypes.func,
     }
 
     static defaultProps = {
-      draggable  : true,
-      onDragStart: (() => {}),
-      onDrag     : (() => {}),
-      onDragEnd  : (() => {}),
+      draggable   : true,
+      onDragStart : () => {},
+      onDrag      : () => {},
+      onDragEnd   : () => {},
     }
 
     static displayName = `Draggable(${Component.displayName})`
@@ -56,19 +56,23 @@ export default (Component) => {
       return (
         <Component
           { ...rest }
-          onMouseDown = { ::this.handleMouseDown }
-          onMouseUp   = { ::this.handleMouseUp }
+          onMouseDown={ ::this.handleMouseDown }
+          onMouseUp={ ::this.handleMouseUp }
         />
       )
     }
 
     handleMouseDown(e) {
+      if (typeof this.props.onMouseDown === 'function') {
+        this.props.onMouseDown(e)
+      }
+
       // Ignore the node if the element isn't dragable.
       if (!this.props.draggable) { return }
 
       // Initiate the drag event.
       this.isBeingDragged = true
-      this.lastCoords     = { x: e.clientX, y: e.clientY }
+      this.lastCoords = { x: e.clientX, y: e.clientY }
       this.props.onDragStart(e)
       this.props.addDragListener(this.handleDrag)
     }
@@ -83,6 +87,10 @@ export default (Component) => {
     }
 
     handleMouseUp(e) {
+      if (typeof this.props.onMouseUp === 'function') {
+        this.props.onMouseUp(e)
+      }
+
       // End the drag event.
       this.isBeingDragged = false
       this.props.onDragEnd(e)

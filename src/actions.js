@@ -13,8 +13,14 @@ export const types = {
 
   // Fired when a node is created.
   GRAPH_NODE_CREATE         : '@@alpine/graph/node-create',
+  // Fired when an node is removed.
+  GRAPH_NODE_REMOVE         : '@@alpine/graph/node-remove',
   // Fired when a node (place or transition) is being dragged.
   GRAPH_NODE_MOVE           : '@@alpine/graph/node-move',
+  // Fired when a node is selected.
+  GRAPH_NODE_SELECT         : '@@alpine/graph/node-select',
+  // Fired when a node is unselected.
+  GRAPH_NODE_UNSELECT       : '@@alpine/graph/node-unselect',
 
   // Fired when an arc creater initiates a drag event.
   GRAPH_ARC_CREATE          : '@@alpine/graph/arc-create',
@@ -24,8 +30,8 @@ export const types = {
   GRAPH_ARC_REMOVE          : '@@alpine/graph/arc-remove',
   // Fired when an arc is selected.
   GRAPH_ARC_SELECT          : '@@alpine/graph/arc-select',
-  // Fired when an arc is deselected.
-  GRAPH_ARC_DESELECT        : '@@alpine/graph/arc-deselect',
+  // Fired when an arc is unselected.
+  GRAPH_ARC_UNSELECT        : '@@alpine/graph/arc-unselect',
 
   // Fired when the graph's context menu is about to show.
   GRAPH_CONTEXTMENU_SHOW    : '@@alpine/graph/contextmenu-show',
@@ -80,9 +86,24 @@ export const graph = {
     payload: { ...data, id },
   }),
 
+  removeNode: (id) => ({
+    type   : types.GRAPH_NODE_REMOVE,
+    payload: id,
+  }),
+
   moveNode: (id, dx, dy) => ({
     type   : types.GRAPH_NODE_MOVE,
     payload: { id, dx, dy },
+  }),
+
+  selectNode: (id) => ({
+    type   : types.GRAPH_NODE_SELECT,
+    payload: id,
+  }),
+
+  unselectNode: () => ({
+    type   : types.GRAPH_NODE_UNSELECT,
+    payload: null,
   }),
 
   // MARK: Arc actions.
@@ -107,16 +128,16 @@ export const graph = {
     payload: id,
   }),
 
-  deselectArc: () => ({
-    type   : types.GRAPH_ARC_DESELECT,
+  unselectArc: () => ({
+    type   : types.GRAPH_ARC_UNSELECT,
     payload: null,
   }),
 
   // MARK: Context menu actions.
 
-  showContextMenu: (coords) => ({
+  showContextMenu: (coords, entries) => ({
     type   : types.GRAPH_CONTEXTMENU_SHOW,
-    payload: { coords },
+    payload: { coords, entries },
   }),
 
   hideContextMenu: () => ({

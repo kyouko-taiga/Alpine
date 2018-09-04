@@ -55,7 +55,12 @@ const Arc = (props) => {
   return (
     <g onClick={ props.onClick }>
       <path fill="none" stroke="white" strokeWidth={ 15 } d={ d } />
-      <path { ...arcStyle } d={ d } markerEnd="url(#end-arrow)" />
+      <path
+        { ...arcStyle }
+        d={ d }
+        markerEnd="url(#end-arrow)"
+        filter={ props.selected ? 'url(#alpine-glow-filter)' : null }
+      />
       { handles.map(({ x, y }, i) => <circ key={ i } r={ 10 } cx={ x } cy={ y } />) }
     </g>
   )

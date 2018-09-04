@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 
-import { types as actionTypes } from './actions'
-import { uiStates } from './components/Graph/constants'
-import { editionTools } from './constants'
+import { types as actionTypes } from '../actions'
+import { uiStates } from '../components/Graph/constants'
+import { editionTools } from '../constants'
+
+import contextMenu from './contextMenu'
 
 const nodes = {
   'p0': { id: 'p0', type: 'place', name: 'p0', coords: { x: 100, y: 100 } },
@@ -27,6 +29,16 @@ Object.removing = (source, itemID) => {
   return result
 }
 
+Object.filter = (source, predicate) => {
+  const result = {}
+  for (let key in source) {
+    if (predicate(key, source[key])) {
+      result[key] = source[key]
+    }
+  }
+  return result
+}
+
 Array.removing = (source, item) => {
   const index = source.indexOf(item)
   return index > -1
@@ -39,6 +51,8 @@ export const state = combineReducers({
     switch (action.type) {
     case actionTypes.GRAPH_NODE_CREATE:
       return Object.update(state, action.payload.id, action.payload)
+    case actionTypes.GRAPH_NODE_REMOVE:
+      return Object.removing(state, action.payload)
     case actionTypes.GRAPH_NODE_MOVE:
       return Object.update(state, action.payload.id, (node) => ({
         coords: {
@@ -60,6 +74,10 @@ export const state = combineReducers({
       return Object.update(state, action.payload.id, action.payload.updates)
     case actionTypes.GRAPH_ARC_REMOVE:
       return Object.removing(state, action.payload)
+    case actionTypes.GRAPH_NODE_REMOVE:
+      return Object.filter(
+        state,
+        (key, value) => (value.sourceID !== action.payload) && (value.targetID !== action.payload))
     default:
       return state
     }
@@ -93,10 +111,24 @@ export const state = combineReducers({
       }
     },
 
+    // Keep track of the selected node.
+    selectedNode: (state = null, action) => {
+      switch (action.type) {
+      case actionTypes.GRAPH_NODE_SELECT      : return action.payload
+      case actionTypes.GRAPH_NODE_UNSELECT    : return null
+      case actionTypes.GRAPH_ARC_CREATE       : return null
+      case actionTypes.GRAPH_ARC_SELECT       : return null
+      default                                 : return state
+      }
+    },
+
+    // Keep track of the selected arc.
     selectedArc: (state = null, action) => {
       switch (action.type) {
+      case actionTypes.GRAPH_ARC_CREATE       : return action.payload.id
       case actionTypes.GRAPH_ARC_SELECT       : return action.payload
-      case actionTypes.GRAPH_ARC_DESELECT     : return null
+      case actionTypes.GRAPH_ARC_UNSELECT     : return null
+      case actionTypes.GRAPH_NODE_SELECT      : return null
       default                                 : return state
       }
     },
@@ -115,15 +147,6 @@ export const state = combineReducers({
     },
 
     // Keep track of the state of the graph's context menu.
-    contextMenu: (state = { open: false, coords: { x: 0, y: 0 } }, action) => {
-      switch (action.type) {
-      case actionTypes.GRAPH_CONTEXTMENU_SHOW:
-        return { open: true, coords: action.payload.coords }
-      case actionTypes.GRAPH_CONTEXTMENU_HIDE:
-        return { ...state, open: false }
-      default:
-        return state
-      }
-    },
+    contextMenu,
   }),
 })
