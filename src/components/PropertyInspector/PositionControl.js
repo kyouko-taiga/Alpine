@@ -12,7 +12,7 @@ const PositionControl = (props) => (
       <div className="alpine-coords">
         <input
           value={ props.value.x }
-          onChange={ (e) => props.onChangeX(parseInt(e.tatget.value)) }
+          onChange={ (e) => props.onChangeX(parseInt(e.target.value)) }
         />
         <Stepper
           onUp={ (e) => props.onChangeX(props.value.x + 1) }
@@ -20,7 +20,7 @@ const PositionControl = (props) => (
         />
         <input
           value={ props.value.y }
-          onChange={ (e) => props.onChangeY(parseInt(e.tatget.value)) }
+          onChange={ (e) => props.onChangeY(parseInt(e.target.value)) }
         />
         <Stepper
         onUp={ (e) => props.onChangeY(props.value.y + 1) }
