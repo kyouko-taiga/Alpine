@@ -135,7 +135,7 @@ class Graph extends React.Component {
           // Create the new arc.
           const arcID = guid()
           this.props.createArc (arcID, source.id, null, [cursor])
-          this.props.setUIState(uiStates.CREATE_ARC, { arcID, sourceType: source.type })
+          this.props.setUIState(uiStates.CREATE_ARC, { arcID, source })
         }
         break
       }
@@ -143,7 +143,7 @@ class Graph extends React.Component {
   }
 
   handleMouseMove(e) {
-    // Compute the relative position of the cursor.
+    // Compute the absolute position of the cursor.
     this.pt.x = e.clientX
     this.pt.y = e.clientY
     const cursor = this.pt.matrixTransform(this.svg.getScreenCTM().inverse())
@@ -155,18 +155,24 @@ class Graph extends React.Component {
 
     // In `CREATE_ARC` state, we should update the position of the arc target/handle.
     if (uiState.name == uiStates.CREATE_ARC) {
-      // If the cursor hovers a compatible target, is it as last coordinates, otherwise use the
+      // Compute the position of the label.
+      const origin = this.props.uiState.args.source.coords
+      const labelCoords = { x: (origin.x + cursor.x) / 2, y: (origin.y + cursor.y) / 2 }
+
+      // If the cursor hovers a compatible target, use it as last coordinates, otherwise use the
       // current cursor position.
       const target = this.props.nodes[e.target.dataset.id]
-      if ((typeof target !== 'undefined') && (target.type != uiState.args.sourceType)) {
+      if ((typeof target !== 'undefined') && (target.type != uiState.args.source.type)) {
         this.props.updateArc(this.props.uiState.args.arcID, {
           targetID: target.id,
           handles : [],
+          label   : { value: '', coords: labelCoords },
         })
       } else {
         this.props.updateArc(this.props.uiState.args.arcID, {
           targetID: null,
           handles : [ cursor ],
+          label   : { value: '', coords: labelCoords },
         })
       }
     }

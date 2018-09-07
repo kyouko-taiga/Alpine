@@ -121,9 +121,15 @@ export const graph = {
 
   // MARK: Arc actions.
 
-  createArc: (id, sourceID, targetID, handles) => ({
+  createArc: (id, sourceID, targetID, handles, label) => ({
     type   : types.GRAPH_ARC_CREATE,
-    payload: { id, sourceID, targetID, handles: handles || [] },
+    payload: {
+      id,
+      sourceID,
+      targetID,
+      handles: handles || [],
+      label: label || { value: '', coords: { x: 0, y: 0 } },
+    },
   }),
 
   updateArc: (id, updates) => ({

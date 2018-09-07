@@ -8,11 +8,17 @@ import contextMenu from './contextMenu'
 
 const nodes = {
   'p0': { id: 'p0', type: 'place', name: 'p0', coords: { x: 100, y: 100 }, marking: '' },
-  't0': { id: 't0', type: 'transition', name: 't0', coords: {x: 400, y: 100}, guard: '' },
+  't0': { id: 't0', type: 'transition', name: 't0', coords: { x: 400, y: 100 }, guard: '' },
 }
 
 const arcs = {
-  '0': { id: '0', sourceID: 'p0', targetID: 't0', handles: [], label: '' },
+  '0': {
+    id: '0',
+    sourceID: 'p0',
+    targetID: 't0',
+    handles: [],
+    label: { value: 'unit', coords: { x: 250, y: 80 } },
+  },
   // '1': { id: '1', sourceID: 'p1', targetID: 't0', handles: [], label: '' },
 }
 

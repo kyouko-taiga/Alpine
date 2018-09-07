@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as actions from '../../actions'
+import ArcLabel from './ArcLabel'
 import {
   arcStyle,
   placeNodeDescription,
@@ -60,6 +61,13 @@ const Arc = (props) => {
         d={ d }
         markerEnd="url(#end-arrow)"
         filter={ props.selected ? 'url(#alpine-glow-filter)' : null }
+      />
+      <ArcLabel
+        { ...props.label }
+        arcID={ props.id }
+        selected={ props.selected }
+        draggable={ props.selected }
+        onDrag={ (e) => console.log(e) }
       />
       { handles.map(({ x, y }, i) => <circ key={ i } r={ 10 } cx={ x } cy={ y } />) }
     </g>

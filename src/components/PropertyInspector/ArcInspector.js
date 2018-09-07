@@ -11,7 +11,7 @@ const Handle = (props) => (
   <div className="alpine-handle">
     <input
       value={ props.x }
-      onChange={ (e) => props.onChange(e.target.value, props.y) }
+      onChange={ (e) => props.onChange(parseInt(e.target.value), props.y) }
     />
     <Stepper
     onUp={ (e) => props.onChange(props.x + 1, props.y) }
@@ -19,7 +19,7 @@ const Handle = (props) => (
     />
     <input
       value={ props.y }
-      onChange={ (e) => props.onChange(props.x, e.target.value) }
+      onChange={ (e) => props.onChange(props.x, parseInt(e.target.value)) }
     />
     <Stepper
       onUp={ (e) => props.onChange(props.x, props.y + 1) }
@@ -45,14 +45,14 @@ const ArcInspector = (props) => (
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
-        value={ props.arc.label }
-        onChange={ (e) => props.onChange('label', e.target.value) }
+        value={ props.arc.label.value }
+        onChange={ (e) => props.onChange('label.value', e.target.value) }
       />
     </div>
     <PositionControl
-      value={ { x: 0, y: 0 } }
-      onChangeX={ () => {} }
-      onChangeY={ () => {} }
+      value={ { x: props.arc.label.coords.x, y: props.arc.label.coords.y } }
+      onChangeX={ (x) => props.onChange('label.coords.x', x) }
+      onChangeY={ (y) => props.onChange('label.coords.y', y) }
     />
 
     <div className="alpine-divider" />
