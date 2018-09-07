@@ -7,13 +7,13 @@ import { editionTools } from '../constants'
 import contextMenu from './contextMenu'
 
 const nodes = {
-  'p0': { id: 'p0', type: 'place', name: 'p0', coords: { x: 100, y: 100 } },
-  't0': { id: 't0', type: 'transition', name: 'p0', coords: {x: 400, y: 100} },
+  'p0': { id: 'p0', type: 'place', name: 'p0', coords: { x: 100, y: 100 }, marking: '' },
+  't0': { id: 't0', type: 'transition', name: 't0', coords: {x: 400, y: 100}, guard: '' },
 }
 
 const arcs = {
-  '0': { id: '0', sourceID: 'p0', targetID: 't0', handles: [] },
-  // '1': { id: '1', sourceID: 'p1', targetID: 't0', handles: [] },
+  '0': { id: '0', sourceID: 'p0', targetID: 't0', handles: [], label: '' },
+  // '1': { id: '1', sourceID: 'p1', targetID: 't0', handles: [], label: '' },
 }
 
 Object.update = (source, itemID, updates) => {
@@ -51,6 +51,8 @@ export const state = combineReducers({
     switch (action.type) {
     case actionTypes.GRAPH_NODE_CREATE:
       return Object.update(state, action.payload.id, action.payload)
+    case actionTypes.GRAPH_NODE_UPDATE:
+      return Object.update(state, action.payload.id, action.payload.updates)
     case actionTypes.GRAPH_NODE_REMOVE:
       return Object.removing(state, action.payload)
     case actionTypes.GRAPH_NODE_MOVE:
@@ -78,6 +80,28 @@ export const state = combineReducers({
       return Object.filter(
         state,
         (key, value) => (value.sourceID !== action.payload) && (value.targetID !== action.payload))
+    case actionTypes.GRAPH_ARC_HANDLE_ADD:
+      return Object.update(state, action.payload.arcID, (arc) => ({
+        ...arc,
+        handles: arc.handles.concat([action.payload.coords]),
+      }))
+    case actionTypes.GRAPH_ARC_HANDLE_REMOVE:
+      return Object.update(state, action.payload.arcID, (arc) => ({
+        ...arc,
+        handles: [
+          ...arc.handles.slice(0, action.payload.index),
+          ...arc.handles.slice(action.payload.index + 1)
+        ],
+      }))
+    case actionTypes.GRAPH_ARC_HANDLE_MOVE:
+      return Object.update(state, action.payload.arcID, (arc) => ({
+        ...arc,
+        handles: [
+          ...arc.handles.slice(0, action.payload.index),
+          action.payload.coords,
+          ...arc.handles.slice(action.payload.index + 1)
+        ],
+      }))
     default:
       return state
     }

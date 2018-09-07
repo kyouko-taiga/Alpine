@@ -3,6 +3,7 @@ import React from 'react'
 import CodeEditor from './CodeEditor'
 import Graph from './Graph'
 import Palette from './Palette'
+import PropertyInspector from './PropertyInspector'
 import { Tabs, Tab } from './Tabs'
 
 export default class Editor extends React.Component {
@@ -28,7 +29,9 @@ export default class Editor extends React.Component {
               </Tab>
             </Tabs>
           </div>
-          <div className="alpine-sidebar" />
+          <div className="alpine-sidebar">
+            <PropertyInspector />
+          </div>
         </div>
       </div>
     )

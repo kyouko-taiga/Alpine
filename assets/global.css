@@ -50,7 +50,7 @@ body {
 
 .alpine-editor > .alpine-body > .alpine-sidebar {
   flex-shrink: 0;
-  width: 200px;
+  width: 240px;
   background-color: rgb(232,232,232);
 }
 
@@ -157,4 +157,101 @@ body {
 }
 .alpine-graph text::selection {
     background: none;
+}
+
+/* --- Property inspectors --- */
+
+.alpine-property-inspector {
+  padding: .5rem;
+}
+
+.alpine-property-inspector .alpine-title {
+  font-weight: 450;
+  font-size: .75rem;
+  margin-bottom: 10px;
+}
+
+.alpine-property-inspector .alpine-control-group {
+  margin-bottom: 5px;
+}
+
+.alpine-property-inspector .alpine-control-group > label {
+  display: inline-block;
+  width: 30%;
+  font-size: .85rem;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.alpine-property-inspector .alpine-control-group > .alpine-control-input {
+  display: inline-block;
+  width: calc(70% - 5px);
+  height: 1.5rem;
+}
+
+.alpine-property-inspector .alpine-coords,
+.alpine-property-inspector .alpine-handle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alpine-property-inspector .alpine-coords > input {
+  width: calc(50% - 20px);
+  height: 1.5rem;
+}
+
+.alpine-property-inspector .alpine-handle > input {
+  width: calc(50% - 30px);
+  height: 1.5rem;
+}
+
+.alpine-property-inspector .alpine-stepper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 15px;
+  height: 1.5rem;
+  background-color: white;
+  border: 1px solid rgb(191,191,191);
+  box-sizing: border-box;
+}
+
+.alpine-property-inspector .alpine-stepper > div {
+  font-size: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.alpine-handle-remove {
+  width: 15px;
+  background: none;
+  border: none;
+  font-size: 10px;
+  opacity: 0.3;
+}
+
+.alpine-handle-add {
+  margin: 5px 0;
+  background: none;
+  border: none;
+  opacity: 0.3;
+}
+
+.alpine-handle-remove:hover,
+.alpine-handle-add:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.alpine-property-inspector .alpine-divider {
+  border-bottom: 1px solid rgb(208,208,208);
+  margin: 16px 0;
+}
+
+.alpine-property-inspector .alpine-code {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid rgb(191,191,191);
+  font-size: 1rem;
 }

@@ -13,6 +13,8 @@ export const types = {
 
   // Fired when a node is created.
   GRAPH_NODE_CREATE         : '@@alpine/graph/node-create',
+  // Fired when a node is updated.
+  GRAPH_NODE_UPDATE          : '@@alpine/graph/node-update',
   // Fired when an node is removed.
   GRAPH_NODE_REMOVE         : '@@alpine/graph/node-remove',
   // Fired when a node (place or transition) is being dragged.
@@ -22,7 +24,7 @@ export const types = {
   // Fired when a node is unselected.
   GRAPH_NODE_UNSELECT       : '@@alpine/graph/node-unselect',
 
-  // Fired when an arc creater initiates a drag event.
+  // Fired when an arc creator initiates a drag event.
   GRAPH_ARC_CREATE          : '@@alpine/graph/arc-create',
   // Fired when an arc is updated.
   GRAPH_ARC_UPDATE          : '@@alpine/graph/arc-update',
@@ -32,6 +34,12 @@ export const types = {
   GRAPH_ARC_SELECT          : '@@alpine/graph/arc-select',
   // Fired when an arc is unselected.
   GRAPH_ARC_UNSELECT        : '@@alpine/graph/arc-unselect',
+  // Fired when a handle is added to an arc.
+  GRAPH_ARC_HANDLE_ADD      : '@@alpine/graph/arc-add-handle',
+  // Fired when a handle is removed from an arc.
+  GRAPH_ARC_HANDLE_REMOVE   : '@@alpine/graph/arc-remove-handle',
+  // Fired when a handle is moved.
+  GRAPH_ARC_HANDLE_MOVE     : '@@alpine/graph/arc-move-handle',
 
   // Fired when the graph's context menu is about to show.
   GRAPH_CONTEXTMENU_SHOW    : '@@alpine/graph/contextmenu-show',
@@ -86,6 +94,11 @@ export const graph = {
     payload: { ...data, id },
   }),
 
+  updateNode: (id, updates) => ({
+    type   : types.GRAPH_NODE_UPDATE,
+    payload: { id, updates },
+  }),
+
   removeNode: (id) => ({
     type   : types.GRAPH_NODE_REMOVE,
     payload: id,
@@ -131,6 +144,21 @@ export const graph = {
   unselectArc: () => ({
     type   : types.GRAPH_ARC_UNSELECT,
     payload: null,
+  }),
+
+  addHandle: (arcID, coords) => ({
+    type   : types.GRAPH_ARC_HANDLE_ADD,
+    payload: { arcID, coords },
+  }),
+
+  removeHandle: (arcID, index) => ({
+    type   : types.GRAPH_ARC_HANDLE_REMOVE,
+    payload: { arcID, index },
+  }),
+
+  moveHandle: (arcID, index, coords) => ({
+    type   : types.GRAPH_ARC_HANDLE_MOVE,
+    payload: { arcID, index, coords },
   }),
 
   // MARK: Context menu actions.
